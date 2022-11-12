@@ -1,17 +1,20 @@
 DEPS=.build-deps
 TARGET=Debug
 
+CARGO_FLAGS_Debug=
+CARGO_FLAGS_Release=--release
+
 .PHONY: all clean distclean test
 
 PROFILE=default
 
-all: ${TARGET}
+all: build/${TARGET}
 	${DEPS}/bin/cmake --build build/${TARGET} --parallel
 	${DEPS}/bin/compdb -p build/${TARGET} list > compile_commands.json
-	cargo build
+	cargo build ${CARGO_FLAGS_${TARGET}}
 
-${TARGET}: ${DEPS} conanfile.txt
-	${DEPS}/bin/conan install --profile=${PROFILE} -s compiler.cppstd=20 -s build_type=Debug . --build missing
+build/${TARGET}: ${DEPS} conanfile.py
+	${DEPS}/bin/conan install --profile=${PROFILE} -s compiler.cppstd=20 -s build_type=${TARGET} . --build missing
 	${DEPS}/bin/conan build .
 
 ${DEPS}: dev_requirements.txt

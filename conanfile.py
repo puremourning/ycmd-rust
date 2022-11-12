@@ -22,7 +22,6 @@ class YcmdConan(ConanFile):
 
   # Requirements
   requires = (
-    "boost/1.80.0",
     "abseil/20220623.0",
   )
 

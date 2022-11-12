@@ -7,13 +7,17 @@ include_cpp! {
 }
 
 fn main() {
-  let mut c = ffi::YouCompleteMe::IdentifierCompleter::new1().within_unique_ptr();
-  c.pin_mut().AddSingleIdentifierToDatabase( "Test", "test", "/test" );
-  c.pin_mut().AddSingleIdentifierToDatabase( "taste", "test", "/test" );
-  c.pin_mut().AddSingleIdentifierToDatabase( "VeryTasty", "test", "/test" );
-  c.pin_mut().AddSingleIdentifierToDatabase( "VeryToasty", "test", "/test" );
-  cxx::let_cxx_string! ( t = "test" );
-  let candidates = c.CandidatesForQueryAndType("VT", &t, 0 );
+  moveit! {
+    let mut c = ffi::YouCompleteMe::IdentifierCompleter::new1()
+  };
+  let test = "test";
+  let path = "/test";
+  cxx::let_cxx_string!( ctest = test);
+  c.as_mut().AddSingleIdentifierToDatabase( "vTest", test, path);
+  c.as_mut().AddSingleIdentifierToDatabase( "vtaste", test, path);
+  c.as_mut().AddSingleIdentifierToDatabase( "VeryTasty", test, path);
+  c.as_mut().AddSingleIdentifierToDatabase( "VeryToasty", test, path);
+  let candidates = c.CandidatesForQueryAndType("vt", &ctest, 0 );
   for candidate in candidates.as_ref().unwrap() {
     println!( "{}", candidate );
   }

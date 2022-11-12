@@ -75,27 +75,33 @@ target_compile_definitions( YcmCore
     YCM_EXPORT=
 )
 
-#if ( MSVC )
-#  target_compile_options( YcmCore
-#    PRIVATE
-#      /W4 /WX
-#  )
-#else()
-#  target_compile_options( YcmCore
-#    PRIVATE
-#      -Wall -Wextra -Werror -fvisibility=hidden
-#  )
-#  if ( ${ENABLE_ASAN} )
-#    target_compile_options( YcmCore
-#      PRIVATE
-#       -fsanitize=address
-#      )
-#    target_link_options( YcmCore
-#      PRIVATE
-#        -fsanitize=address
-#    )
-#  endif()
-#endif()
+set_target_properties( YcmCore
+  PROPERTIES
+    INTERPROCEDURAL_OPTIMIZATION ON
+)
+
+
+if ( MSVC )
+  target_compile_options( YcmCore
+    PRIVATE
+      /W4 /WX
+  )
+else()
+  target_compile_options( YcmCore
+    PRIVATE
+      -Wall -Wextra -Werror -fvisibility=hidden
+  )
+  if ( ${ENABLE_ASAN} )
+    target_compile_options( YcmCore
+      PRIVATE
+       -fsanitize=address
+      )
+    target_link_options( YcmCore
+      PRIVATE
+        -fsanitize=address
+    )
+  endif()
+endif()
 
 target_link_libraries( YcmCore
   PUBLIC
