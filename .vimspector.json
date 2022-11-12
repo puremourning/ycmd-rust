@@ -1,0 +1,30 @@
+{
+  "$schema": "https://puremourning.github.io/vimspector/schema/vimspector.schema.json",
+  "configurations": {
+    "Run": {
+      "adapter": "CodeLLDB",
+      "variables": [
+        {
+          "build_dir": "${workspaceRoot}/target/${Configuration:Debug}"
+        },
+        {
+          "make": {
+            "shell": "make"
+          }
+        }
+      ],
+      "configuration": {
+        "request": "launch",
+        "program": "${build_dir}/ycmd-rust"
+      }
+    },
+    "Attach": {
+      "adapter": "CodeLLDB",
+      "configuration": {
+        "request": "attach",
+        "program": "${workspaceRoot}/build/Debug/ycmd-rust",
+        "pid#json": "${selectProcess}"
+      }
+    }
+  }
+}
