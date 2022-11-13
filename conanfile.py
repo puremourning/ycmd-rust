@@ -1,7 +1,7 @@
 from conan import ConanFile
 from conan.tools.cmake import CMakeToolchain, CMakeDeps, CMake, cmake_layout
+from conan.tools import files
 from conans import tools
-
 
 class YcmdConan(ConanFile):
   name = "ycmd"
@@ -22,6 +22,7 @@ class YcmdConan(ConanFile):
 
   # Requirements
   requires = (
+    "ConanCargoWrapper/0.1@puremourning/testing",
     "abseil/20220623.0",
   )
 
@@ -38,6 +39,21 @@ class YcmdConan(ConanFile):
     CMakeDeps(self).generate()
 
   def build(self):
+    import os
+
+    # Move the generated cargo build paths where we need them.
+    src = os.path.join(self.folders.source_folder,
+                       'conan_cargo_build.rs')
+    dst = os.path.join(self.folders.source_folder,
+                       'ycmd',
+                       'conan_cargo_build.rs')
+    try:
+      os.remove(dst)
+    except FileNotFoundError:
+      pass
+
+    files.rename(self, src, dst)
+
     cmake = CMake(self)
     cmake.configure()
     cmake.build()

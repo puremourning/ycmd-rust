@@ -27,3 +27,4 @@ set( CMAKE_EXPORT_COMPILE_COMMANDS ON )
 
 # add the executable
 add_subdirectory(core)
+add_subdirectory(ycmd)

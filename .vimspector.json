@@ -2,7 +2,14 @@
   "$schema": "https://puremourning.github.io/vimspector/schema/vimspector.schema.json",
   "configurations": {
     "Run": {
-      "adapter": "CodeLLDB",
+      "filetypes": [ "rust", "cpp" ],
+      "adapter": {
+        "extends": "CodeLLDB",
+        "command": [
+          "$HOME/Development/vimspector/CodeLLDB/build/adapter/codelldb",
+          "--port", "${unusedLocalPort}"
+        ]
+      },
       "variables": [
         {
           "build_dir": "${workspaceRoot}/target/${Configuration:Debug}"
@@ -20,6 +27,7 @@
     },
     "Attach": {
       "adapter": "CodeLLDB",
+      "filetypes": [ "rust", "cpp" ],
       "configuration": {
         "request": "attach",
         "program": "${workspaceRoot}/build/Debug/ycmd-rust",

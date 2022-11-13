@@ -1,0 +1,3 @@
+[submodule "vendor/conan-cargo-wrapper-generator"]
+	path = vendor/conan-cargo-wrapper-generator
+	url = https://github.com/puremourning/conan-cargo-wrapper-generator

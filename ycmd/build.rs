@@ -1,7 +1,8 @@
+use std::env;
 mod conan_cargo_build;
 
 fn main() -> miette::Result<()> {
-  let mut include_paths = vec![ "core" ];
+  let mut include_paths = vec![ "../core" ];
   include_paths.extend( conan_cargo_build::INCLUDE_PATHS );
 
   autocxx_build::Builder::new( "src/main.rs", include_paths )
@@ -13,7 +14,7 @@ fn main() -> miette::Result<()> {
   println!("cargo:rerun-if-changed=src/main.rs");
 
   // Add instructions to link to any C++ libraries you need.
-  println!("cargo:rustc-link-search=build/Debug/core"); // TODO: target ?
+  println!("cargo:rustc-link-search={}/../core", env::var("CARGO_TARGET_DIR").unwrap());
   println!("cargo:rustc-link-lib=static=YcmCore");
   conan_cargo_build::main();
 

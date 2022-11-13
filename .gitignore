@@ -8,6 +8,6 @@ Session.vim
 .build-deps/
 build/
 .vimspector.session
-conan_cargo_build.rs
+ycmd/conan_cargo_build.rs
 target/
 CMakeUserPresets.json
