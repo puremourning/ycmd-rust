@@ -14,7 +14,7 @@ fn main() -> miette::Result<()> {
   println!("cargo:rerun-if-changed=src/main.rs");
 
   // Add instructions to link to any C++ libraries you need.
-  println!("cargo:rustc-link-search={}/../core", env::var("CARGO_TARGET_DIR").unwrap());
+  println!("cargo:rustc-link-search={}/../core", env::var("CARGO_TARGET_DIR").unwrap_or(String::from("")));
   println!("cargo:rustc-link-lib=static=YcmCore");
   conan_cargo_build::main();
 
